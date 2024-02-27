@@ -19,8 +19,10 @@ export const GenreCell = (
 
   return (
     <td className=''>
-      {genres.map((genrer) => (
-        <h1 className='font-bold'>{genrer}</h1>
+      {genres.map((genrer, index) => (
+        <h1 key={index} className='font-bold'>
+          {genrer}
+        </h1>
       ))}
     </td>
   );

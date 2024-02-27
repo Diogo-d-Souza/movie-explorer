@@ -4,7 +4,7 @@ import {
   GridPageChangeEvent,
   GridToolbar,
 } from '@progress/kendo-react-grid';
-import { Input } from '@progress/kendo-react-inputs';
+import { Input, InputChangeEvent } from '@progress/kendo-react-inputs';
 import '@progress/kendo-theme-default/dist/all.css';
 import { useEffect, useState } from 'react';
 import IListMovieGenre from '../interfaces/IListMovieGenre';
@@ -20,6 +20,8 @@ export default function GridList() {
   const [take, setTake] = useState(10);
   const [movieList, setMovieList] = useState<IResults[]>([]);
   const [listMovieGenre, setListMovieGenre] = useState<IListMovieGenre>();
+  const [filterValue, setFilterValue] = useState<string>();
+  const [filteredData, setFilteredData] = useState<IResults[]>([]);
 
   useEffect(() => {
     const fetcAPI = async () => {
@@ -33,18 +35,40 @@ export default function GridList() {
     fetcAPI();
   }, []);
 
-  useEffect(() => console.log(movieList), [movieList]);
+  useEffect(() => setFilteredData(movieList), [movieList]);
 
   const handlePaginationChange = async (event: GridPageChangeEvent) => {
     setSkip(event.page.skip);
     setTake(event.page.take);
   };
 
+  const onFilterChange = (ev: InputChangeEvent) => {
+    const value = ev.value;
+    setFilterValue(ev.value);
+    const newData = movieList.filter((item) => {
+      let match = false;
+      for (const property in item) {
+        if (
+          item[property as keyof typeof item]
+            .toString()
+            .toLocaleLowerCase()
+            .indexOf(value.toLocaleLowerCase()) >= 0
+        ) {
+          match = true;
+        }
+      }
+      return match;
+    });
+    setFilteredData(newData);
+    setTake(10);
+    setSkip(0);
+  };
+
   return (
     <Grid
       className='w-full'
       style={{ height: '700px' }}
-      data={movieList.slice(skip, skip + take)}
+      data={filteredData.slice(skip, skip + take)}
       pageable={true}
       skip={skip}
       take={take}
@@ -55,8 +79,8 @@ export default function GridList() {
     >
       <GridToolbar>
         <Input
-          // value={filterValue}
-          // onChange={onFilterChange}
+          value={filterValue}
+          onChange={onFilterChange}
           style={{
             border: '2px solid #ccc',
             boxShadow: 'inset 0px 0px 0.5px 0px rgba(0,0,0,0.0.1)',
