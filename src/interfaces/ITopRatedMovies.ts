@@ -1,11 +1,11 @@
 export default interface ITopRatedMovies {
   pages: number;
-  results: Results[];
+  results: IResults[];
   total_pages: number;
   total_results: number;
 }
 
-interface Results {
+export interface IResults {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];

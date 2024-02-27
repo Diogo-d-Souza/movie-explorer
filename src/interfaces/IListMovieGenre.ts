@@ -1,4 +1,4 @@
-export default interface IMovieList {
+export default interface IListMovieGenre {
   genres: [
     {
       id: number;
