@@ -1,6 +1,6 @@
 import { GridCustomCellProps } from '@progress/kendo-react-grid';
 import { useEffect, useState } from 'react';
-import IListMovieGenre from '../interfaces/IListMovieGenre';
+import IListMovieGenre from '../../interfaces/IListMovieGenre';
 
 export const GenreCell = (
   props: GridCustomCellProps,

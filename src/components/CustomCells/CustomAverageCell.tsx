@@ -25,7 +25,8 @@ export const AverageCell = (props: GridCustomCellProps) => {
   return (
     <td>
       <ProgressBar
-        value={dataItem.vote_average * 10}
+        value={dataItem.vote_average}
+        max={10}
         progressStyle={progressStyles}
         style={{ color: 'black' }}
       />

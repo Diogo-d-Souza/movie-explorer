@@ -1,7 +1,8 @@
+import { DataResult, State, process } from '@progress/kendo-data-query';
 import {
   GridColumn as Column,
   Grid,
-  GridPageChangeEvent,
+  GridDataStateChangeEvent,
   GridToolbar,
 } from '@progress/kendo-react-grid';
 import { Input, InputChangeEvent } from '@progress/kendo-react-inputs';
@@ -10,37 +11,44 @@ import { useEffect, useState } from 'react';
 import IListMovieGenre from '../interfaces/IListMovieGenre';
 import { IResults } from '../interfaces/ITopRatedMovies';
 import { ListMovieGenre, TopRatedMovies } from '../utils/api';
-import { AverageCell } from './CustomAverageCell';
-import { GenreCell } from './CustomGenreCell';
-import { MovieCell } from './CustomMovieCell';
-import { OverviewCell } from './CustomOverviewCell';
+import { AverageCell } from './CustomCells/CustomAverageCell';
+import { GenreCell } from './CustomCells/CustomGenreCell';
+import { MovieCell } from './CustomCells/CustomMovieCell';
+import { OverviewCell } from './CustomCells/CustomOverviewCell';
+
+const initialDataState: State = {
+  sort: [],
+  take: 10,
+  skip: 0,
+  filter: {
+    logic: 'and',
+    filters: [],
+  },
+};
 
 export default function GridList() {
-  const [skip, setSkip] = useState(0);
-  const [take, setTake] = useState(10);
+  const [dataState, setDataState] = useState<State>(initialDataState);
   const [movieList, setMovieList] = useState<IResults[]>([]);
   const [listMovieGenre, setListMovieGenre] = useState<IListMovieGenre>();
   const [filterValue, setFilterValue] = useState<string>();
-  const [filteredData, setFilteredData] = useState<IResults[]>([]);
+  const [dataResult, setDataResult] = useState<DataResult>(
+    process(movieList, dataState)
+  );
 
   useEffect(() => {
     const fetcAPI = async () => {
+      const data = [];
       for (let i = 1; i < 11; i++) {
         const { data: topRatedMoviesDataT } = await TopRatedMovies(i);
         setMovieList((prev) => [...prev, ...topRatedMoviesDataT.results]);
+        data.push(...topRatedMoviesDataT.results);
       }
+      setDataResult(process(data, initialDataState));
       const { data: listMovieGenreData } = await ListMovieGenre();
       setListMovieGenre(listMovieGenreData);
     };
     fetcAPI();
   }, []);
-
-  useEffect(() => setFilteredData(movieList), [movieList]);
-
-  const handlePaginationChange = async (event: GridPageChangeEvent) => {
-    setSkip(event.page.skip);
-    setTake(event.page.take);
-  };
 
   const onFilterChange = (ev: InputChangeEvent) => {
     const value = ev.value;
@@ -59,23 +67,28 @@ export default function GridList() {
       }
       return match;
     });
-    setFilteredData(newData);
-    setTake(10);
-    setSkip(0);
+
+    const clearedPagerDataState = { ...dataState, take: 10, skip: 0 };
+    const processedData = process(newData, clearedPagerDataState);
+    setDataResult(processedData);
+    setDataState(clearedPagerDataState);
+  };
+
+  const onDataStateChange = (e: GridDataStateChangeEvent) => {
+    setDataState(e.dataState);
+    setDataResult(process(movieList, e.dataState));
   };
 
   return (
     <Grid
       className='w-full'
       style={{ height: '700px' }}
-      data={filteredData.slice(skip, skip + take)}
+      data={dataResult}
+      {...dataState}
+      onDataStateChange={onDataStateChange}
       pageable={true}
-      skip={skip}
-      take={take}
-      onPageChange={handlePaginationChange}
-      total={movieList.length}
+      filterable={true}
       size={'small'}
-      sortable={true}
     >
       <GridToolbar>
         <Input
@@ -88,13 +101,14 @@ export default function GridList() {
             height: '30px',
             marginRight: '10px',
           }}
-          placeholder='Filter by name...'
+          placeholder='Search in all columns'
         />
       </GridToolbar>
       <Column field='title' title='Name' cell={MovieCell} width={300} />
       <Column
         field='genre_ids'
         title='Genrer'
+        filterable={false}
         cell={(e) => GenreCell(e, listMovieGenre!)}
         width={150}
       />
