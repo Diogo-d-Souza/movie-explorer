@@ -1,30 +1,52 @@
-# React + TypeScript + Vite
+# Movie Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project was developed for a technical challenge with the aim of listing the top 200 highest-rated movies by consuming the TMDB public API.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- `TMDB public API`
+- `List of top 200 highest-rated movies`
+- `Columns can be filtered`
+- `Navbar navigation`
+- `Movies more details page`
 
-## Expanding the ESLint configuration
+## Technologies
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- `TypeScript`
+- `React.js`
+- `Tailwind CSS`
+- `Kendo UI`
+- `Axios`
+- `React Router Dom v.6`
 
-- Configure the top-level `parserOptions` property like this:
+## Instalation
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+1. Clone this repository
+
+```
+git clone https://github.com/Diogo-d-Souza/movie-explorer.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Move into root folder
+
+```
+cd /movie-explorer
+```
+
+3. Install all dependencies
+
+```
+npm install
+```
+
+4. Run the project
+
+```
+npm run dev
+```
+
+5. Acess in the web (the default localhost port will be 5173)
+
+```
+http://localhost:5173/
+```
