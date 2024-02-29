@@ -34,7 +34,7 @@ export default function MovieDetailPage() {
 
   return (
     <main
-      className='flex justify-center items-center h-full w-full p-auto pt-14'
+      className='flex justify-center items-center min-h-full w-full p-auto pt-14'
       style={{
         backgroundImage: `url(${imageDataUrl})`,
         backgroundSize: 'cover',
@@ -46,7 +46,7 @@ export default function MovieDetailPage() {
         className='flex justify-center items-center w-full h-full pt-8 pb-8'
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.8)' }}
       >
-        <Card className='bg-zinc-900 border-slate-300 w-3/5 max-w-4xl h-full'>
+        <Card className='bg-zinc-900 border-slate-300 w-4/5 lg:w-3/5 max-w-4xl h-full'>
           <section className='flex flex-col self-center w-1/2 gap-3 pt-4'>
             <CardImage src={imageDataUrl} />
             <span className='self-center text-gray-400'>
@@ -60,7 +60,7 @@ export default function MovieDetailPage() {
                   <h1>{movieDetails.title}</h1>
                 </CardTitle>
                 <CardSubtitle
-                  className='flex flex-row gap-1 text-sm text-gray-300'
+                  className='flex flex-row gap-1 text-xs sm:text-sm md:text-base text-gray-300'
                   style={{ marginTop: '-1px' }}
                 >
                   <span>{movieDetails.release_date}</span>

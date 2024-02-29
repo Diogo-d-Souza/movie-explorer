@@ -5,7 +5,7 @@ import Router from './router';
 export default function App() {
   return (
     <main
-      className='flex h-full'
+      className='flex min-h-screen'
       style={{ backgroundColor: 'rgba(110, 112, 117, 0.8)' }}
     >
       <Router />
