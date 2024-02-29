@@ -90,40 +90,60 @@ export default function GridList() {
       filterable={true}
       size={'small'}
     >
-      <GridToolbar>
+      <GridToolbar className='text-black font-bold'>
         <Input
           value={filterValue}
           onChange={onFilterChange}
           style={{
-            border: '2px solid #ccc',
+            border: '2px solid #8a8989',
             boxShadow: 'inset 0px 0px 0.5px 0px rgba(0,0,0,0.0.1)',
             width: '170px',
             height: '30px',
             marginRight: '10px',
+            padding: '4px',
+            borderRadius: '12px',
           }}
           placeholder='Search in all columns'
         />
       </GridToolbar>
-      <Column field='title' title='Name' cell={MovieCell} width={300} />
+      <Column
+        field='title'
+        title='Movie name'
+        filter='text'
+        cell={MovieCell}
+        width={300}
+        headerClassName='text-black font-bold text-base'
+      />
       <Column
         field='genre_ids'
         title='Genrer'
         filterable={false}
         cell={(e) => GenreCell(e, listMovieGenre!)}
         width={150}
+        headerClassName='text-black font-bold text-base'
       />
       <Column
         field='vote_average'
         title='Vote Average'
+        filter='numeric'
         width={200}
         cell={AverageCell}
+        headerClassName='text-black font-bold text-base'
       />
-      <Column field='release_date' title='Release Date' width={200} />
+      <Column
+        field='release_date'
+        title='Release Date'
+        filter='date'
+        width={200}
+        headerClassName='text-black font-bold text-base'
+      />
       <Column
         field='overview'
         title='Overview'
+        filter='text'
         width={600}
         cell={OverviewCell}
+        headerClassName='text-black font-bold text-base'
       />
     </Grid>
   );
