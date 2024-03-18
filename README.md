@@ -1,6 +1,6 @@
 # Movie Explorer
 
-This project was developed for a technical challenge with the aim of listing the top 200 highest-rated movies by consuming the TMDB public API.
+This project was developed with the aim of listing the top 200 highest-rated movies by consuming the TMDB public API.
 
 ## Features
 
